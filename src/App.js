@@ -1,25 +1,44 @@
 import logo from './logo.svg';
 import './App.css';
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import React from 'react';
+class CheckAuthen extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: true,
+            isLoggedIn: false,
+        }
+    }
+    componentDidMount() {
+        const getUserInfo = localStorage.getItem('isLoggedIn');
+        let updatedValue = this.state.isLoggedIn;
+        if (getUserInfo) {
+            updatedValue = true;
+        } else {
+            updatedValue = false;
+        }
+        this.setState({
+            loading: false,
+            isLoggedIn: updatedValue
+        })
+    }
+    render() {
+        return (
+            <div>
+                {this.state.loading && <h3>Loading</h3>}
+                {this.state.isLoggedIn ? (
+                    <div>
+                        <h3>Hello User</h3>
+                        <button>Logout</button>
+                    </div>
+                ) : (
+                    <div>
+                        <h3>Please login</h3>
+                        <button>Login</button>
+                    </div>
+                )}
+            </div>
+        )
+    }
 }
-
-export default App;
+export default CheckAuthen;
